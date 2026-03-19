@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "ts-node-dev src/server.ts"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,10 @@
     "nodemon": "^3.1.14"
   },
   "devDependencies": {
-    "prisma": "5.10.2"
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.5.0",
+    "prisma": "5.10.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
   }
 }
