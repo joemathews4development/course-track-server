@@ -27,6 +27,7 @@ router.put(`/:courseId`, async (req: Request, res: Response, next: NextFunction)
             where: { id: courseId },
             data: req.body
         })
+        res.status(200).json(updatedCourse)
     } catch (error) {
         console.log(error)
         next(error)
@@ -73,7 +74,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
 router.get("/:courseId", async (req: Request, res: Response, next: NextFunction) => {
     const courseId = req.params.courseId as string
     try {
-        const courses = await prisma.course.findFirst({
+        const course = await prisma.course.findFirst({
             where: { id: courseId },
             select: {
                 id: true,
@@ -94,7 +95,7 @@ router.get("/:courseId", async (req: Request, res: Response, next: NextFunction)
                 }
             }
         })
-        res.status(200).json(courses)
+        res.status(200).json(course)
     } catch (error) {
         console.log(error)
         next(error)
