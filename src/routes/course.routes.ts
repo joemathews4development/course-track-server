@@ -64,7 +64,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
                 failedStudents: failed
             }
         })
-        res.status(200).json(courses)
+        res.status(200).json(result)
     } catch (error) {
         console.log(error)
         next(error)

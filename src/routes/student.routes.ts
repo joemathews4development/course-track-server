@@ -78,6 +78,24 @@ router.get("/:studentId", async(req: Request, res: Response, next: NextFunction)
     }
 })
 
+router.get("/courses/:courseId", async(req: Request, res: Response, next: NextFunction) => {
+    const courseId = req.params.courseId as string
+    try {
+        const enrollments = await prisma.enrollment.findMany({
+            where: { courseId: courseId },
+            select: { studentId: true }
+        })
+        const enrolledStudentIds = enrollments.map(e => e.studentId)
+        const students = await prisma.student.findMany({
+            where: { id: { notIn: enrolledStudentIds } }
+        })
+        res.status(200).json(students)
+    } catch (error) {
+        console.log(error)
+        next(error)
+    }
+})
+
 router.delete("/:studentId", async (req: Request, res: Response, next: NextFunction) => {
     const studentId = req.params.studentId as string
     try {
@@ -96,3 +114,5 @@ router.delete("/:studentId", async (req: Request, res: Response, next: NextFunct
         next(error)
     }
 })
+
+export default router

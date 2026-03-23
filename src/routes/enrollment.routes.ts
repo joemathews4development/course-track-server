@@ -38,3 +38,22 @@ router.patch(`/:enrollmentId`, async (req: Request, res: Response, next: NextFun
         next(error)
     }
 })
+
+router.delete("/:courseId/:studentId", async (req: Request, res: Response, next: NextFunction) => {
+    const courseId = req.params.courseId as string
+    const studentId = req.params.studentId as string
+    try {
+        await prisma.enrollment.delete({
+            where: {
+                studentId_courseId: {
+                    studentId: studentId,
+                    courseId: courseId
+                }
+            }
+        })
+        res.status(200).json({ message: "Course deleted successfully" })
+    } catch (error) {
+        console.log(error)
+        next(error)
+    }
+})

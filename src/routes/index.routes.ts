@@ -1,6 +1,7 @@
 import express from "express"
 import { Request, Response, NextFunction } from 'express';
 import courseRoutes from "./course.routes"
+import studentRoutes from "./student.routes"
 import prisma from "../db"
 
 const router = express.Router()
@@ -11,6 +12,7 @@ router.get("/", (req: Request, res: Response, next: NextFunction) => {
 
 router.get("/specs", async (req: Request, res: Response, next: NextFunction) => {
   const now = new Date()
+  console.log("starting db fetch")
   try {
     const [courses, students, enrollments, upcomingCourses] = await Promise.all([
       prisma.course.count(),
@@ -28,6 +30,8 @@ router.get("/specs", async (req: Request, res: Response, next: NextFunction) => 
         take: 3 // only 3 courses
       })
     ])
+    console.log("completed db fetch")
+    console.log(courses)
     let result = {
       courses: courses,
       students: students,
@@ -41,6 +45,7 @@ router.get("/specs", async (req: Request, res: Response, next: NextFunction) => 
   }
 })
 
-router.use('/courses', courseRoutes);
+router.use('/courses', courseRoutes)
+router.use('/students', studentRoutes)
 
 export default router
