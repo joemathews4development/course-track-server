@@ -2,6 +2,7 @@ import express from "express"
 import { Request, Response, NextFunction } from 'express';
 import courseRoutes from "./course.routes"
 import studentRoutes from "./student.routes"
+import enrollmentRoutes from "./enrollment.routes"
 import prisma from "../db"
 
 const router = express.Router()
@@ -47,5 +48,6 @@ router.get("/specs", async (req: Request, res: Response, next: NextFunction) => 
 
 router.use('/courses', courseRoutes)
 router.use('/students', studentRoutes)
+router.use("/enrollments", enrollmentRoutes)
 
 export default router

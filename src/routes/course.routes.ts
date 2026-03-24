@@ -40,6 +40,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
             select: {
                 id: true,
                 title: true,
+                description: true,
                 start: true,
                 students: {
                     select: {
@@ -79,9 +80,11 @@ router.get("/:courseId", async (req: Request, res: Response, next: NextFunction)
             select: {
                 id: true,
                 title: true,
+                description: true,
                 start: true,
                 students: {
                     select: {
+                        id: true,
                         graduationStatus: true,
                         graduationDate: true,
                         student: {
@@ -95,7 +98,14 @@ router.get("/:courseId", async (req: Request, res: Response, next: NextFunction)
                 }
             }
         })
-        res.status(200).json(course)
+        const result = {
+            id: course.id,
+            title: course.title,
+            description: course.description,
+            start: course.start,
+            enrollments: course.students
+        }
+        res.status(200).json(result)
     } catch (error) {
         console.log(error)
         next(error)

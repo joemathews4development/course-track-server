@@ -11,6 +11,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
         courseId,
         enrolledAt
     }
+    console.log(newEnrollment)
     try {
         const newEnrollmentInDB = await prisma.enrollment.create({ data: newEnrollment })
         res.status(201).json(newEnrollmentInDB)
@@ -57,3 +58,16 @@ router.delete("/:courseId/:studentId", async (req: Request, res: Response, next:
         next(error)
     }
 })
+
+router.delete("/:enrollmentId", async (req: Request, res: Response, next: NextFunction) => {
+    const enrollmentId = req.params.enrollmentId as string
+    try {
+        await prisma.enrollment.delete({ where: { id: enrollmentId } })
+        res.status(200).json({ message: "Enrollment deleted successfully" })
+    } catch (error) {
+        console.log(error)
+        next(error)
+    }
+})
+
+export default router

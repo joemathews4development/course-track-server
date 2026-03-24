@@ -66,7 +66,15 @@ router.get("/:studentId", async(req: Request, res: Response, next: NextFunction)
                 profileImage: true,
                 courses: {
                     select: {
-                        graduationStatus: true
+                        id: true,
+                        graduationStatus: true,
+                        graduationDate: true,
+                        course: {
+                            select: {
+                                id: true,
+                                title: true
+                            }
+                        }
                     }
                 }
             }
