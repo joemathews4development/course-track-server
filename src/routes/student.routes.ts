@@ -111,9 +111,9 @@ router.delete("/:studentId", async (req: Request, res: Response, next: NextFunct
             where: { id: studentId }
         })
         if (enrollmentsCount > 0) {
-            return res.status(412).json({ errorMessage: "Cannot delete student with enrollments" })
+            res.status(412).json({ errorMessage: "Cannot delete student with enrollments" })
         }
-        await prisma.course.delete({
+        await prisma.student.delete({
             where: { id: studentId }
         })
         res.status(200).json({ message: "Course deleted successfully" })
